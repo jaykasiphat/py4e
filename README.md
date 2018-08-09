@@ -6,4 +6,4 @@ Python for Everybody Specialization (py4e), taught by Dr. Charles Severance, con
 4. Using Databases with Python
 5. Capstone: Retrieving, Processing, and Visualizing Data with Python
 
-This repository includes required assignment solutions. Please visit https://www.py4e.com/ for more information.
+This repository includes optional exercise and required assignment solutions. Please visit https://www.py4e.com/ for more information.
