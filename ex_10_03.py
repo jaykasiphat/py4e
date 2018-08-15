@@ -29,13 +29,10 @@ for letter, count in counts.items():
 
 ls = sorted(ls, reverse = True)
 
-for count, letter in ls:
-    print(letter, count)
-
-# This makes sure there are 26 letters
 num = 0
 for count, letter in ls:
-    num = num + 1
+    num = num + 1 #Makes sure it counts to 26 alphabets
+    print(letter, count)
 
 print(ls[:5])
 print(num)
