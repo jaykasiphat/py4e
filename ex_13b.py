@@ -1,26 +1,38 @@
 import urllib.request, urllib.parse
 import json
 
-'''
-    Use a GeoLocation lookup API modelled after the Google API to look up some
-    universities and parse the returned data. The program will prompt for a location,
-    contact a web service and retrieve JSON for the web service and parse that data,
-    and retrieve the first place_id from the JSON. A place ID is a textual identifier
-    that uniquely identifies a place as within Google Maps.
+api_key = False
 
-    Use this API endpoint that has a static subset of the Google Data:
-    http://py4e-data.dr-chuck.net/geojson?
-'''
+if api_key is False:
+    api_key = 42
+    serviceurl = 'http://py4e-data.dr-chuck.net/json?'
+else :
+    serviceurl = 'https://maps.googleapis.com/maps/api/geocode/json?'
 
-loc = input('Enter location: ')
-serviceurl = 'http://py4e-data.dr-chuck.net/geojson?'
-url = serviceurl + urllib.parse.urlencode({'address': loc}) #Covert mapping object to a percent-encoded ASCII text string.
-print('Retrieving', url)
+while True:
+    loc = input('Enter location: ')
+    if len(loc)<1:break
 
-connection = urllib.request.urlopen(url)
-data = connection.read().decode() #string from utf-8 to unicode
-print('Retrieved:', len(data), 'characters')
-js = json.loads(data) #deserialize 'data' to a Python object
+    parms = dict()
+    parms['address'] = loc
+    if api_key is not False: parms['key'] = api_key
+    url = serviceurl + urllib.parse.urlencode(parms)
 
-placeid = js['results'][0]['place_id']
-print('Place id', placeid)
+    print('Retrieving', url)
+
+    connection = urllib.request.urlopen(url)
+    data = connection.read().decode()
+    print('Retrieved:', len(data), 'characters')
+
+    try:
+        js = json.loads(data)
+    except:
+        js=None
+
+    if not js or 'status' not in js or js['status'] != 'OK':
+        print('=====Faliure to Retrive=======')
+        print(data)
+        continue
+
+    placeid = js['results'][0]['place_id']
+    print('Place id', placeid)
